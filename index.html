@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta Penal Automática | Crimval</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+      color: #2c3e50;
+    }
+    header {
+      background-color: #2c3e50;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+      font-size: 22px;
+    }
+    section {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 15px;
+      background: #2c3e50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #respuesta {
+      margin-top: 30px;
+      white-space: pre-line;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .legal {
+      font-size: 13px;
+      color: #888;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Consulta Penal Automática</h1>
+  </header>
+
+  <section>
+    <h2>¿Tienes dudas legales? Te ayudamos a resolverlas.</h2>
+    <p>Este asistente analiza los hechos que describas y te indica si podrían constituir un delito, qué artículo del Código Penal sería aplicable, cómo se interpreta, y te da un ejemplo práctico para entenderlo.</p>
+
+    <form id="formulario-penal">
+      <textarea id="consulta" name="consulta" rows="6" placeholder="Ejemplo: Me empujaron por las escaleras. ¿Eso es delito?"></textarea>
+      <button type="submit">Analizar</button>
+    </form>
+
+    <div id="respuesta"></div>
+
+    <p class="legal">
+      *Esta herramienta ha sido desarrollada con fines académicos, jurídicos y criminológicos. Las respuestas se basan en el Código Penal español, con un enfoque técnico y pedagógico. No sustituye la asistencia letrada personalizada en casos concretos.*
+    </p>
+  </section>
+
+  <!-- Firma técnica oculta -->
+  <p style="display:none;">Desarrollado por Bassy Bololo Riokaló | Crimval | JuriGPT Penal 2025 | Backend: https://jurigpt-penal.onrender.com</p>
+
+  <script>
+    document.getElementById('formulario-penal').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const consulta = document.getElementById('consulta').value.trim();
+      const respuesta = document.getElementById('respuesta');
+      if (!consulta) {
+        respuesta.innerHTML = "Por favor, introduce una consulta.";
+        return;
+      }
+      respuesta.innerHTML = "Analizando...";
+      fetch('https://jurigpt-penal.onrender.com/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consulta: consulta })
+      })
+      .then(res => res.json())
+      .then(data => {
+        respuesta.innerHTML = data.respuesta || "No se pudo procesar la consulta.";
+      })
+      .catch(() => {
+        respuesta.innerHTML = "Error de conexión. Inténtalo de nuevo más tarde.";
+      });
+    });
+  </script>
+</body>
+</html>
