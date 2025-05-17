@@ -94,7 +94,7 @@
         return;
       }
       respuesta.innerHTML = "Analizando...";
-      fetch('https://jurigpt-penal.onrender.com/analyze', {
+      fetch(fetch('https://jurigpt-penal-pqvo.onrender.com/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ consulta: consulta })
